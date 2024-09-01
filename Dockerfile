@@ -29,7 +29,7 @@ ARG INSTALL_FFMPEG=false
 # 安装必要的软件包
 RUN apk update && \
     apk upgrade --no-cache && \
-    apk add --no-cache bash ca-certificates su-exec tzdata nginx supervisor && \
+    apk add --no-cache bash ca-certificates su-exec tzdata nginx supervisor curl jq && \
     [ "$INSTALL_FFMPEG" = "true" ] && apk add --no-cache ffmpeg; \
     rm -rf /var/cache/apk/* && \
     mkdir -p /run/nginx
