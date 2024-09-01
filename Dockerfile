@@ -5,13 +5,15 @@ WORKDIR /app/
 
 # 安装必要的软件包
 RUN apk add --no-cache bash curl gcc git go musl-dev
+
 # 拉取远程仓库的代码
 RUN git clone https://github.com/alist-org/alist.git ./ && ls -la
-    
-COPY go.mod go.sum ./
-RUN  go mod download
-COPY ./ ./
-RUN  bash build.sh release docker
+
+# 使用 git 克隆下来的 go.mod 和 go.sum 文件
+RUN go mod download
+
+# 运行构建脚本
+RUN bash build.sh release docker
 
 ############################################
 
