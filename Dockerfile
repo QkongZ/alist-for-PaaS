@@ -51,9 +51,9 @@ COPY nginx.conf /etc/nginx/nginx.conf
 
 # 从构建阶段复制构建好的二进制文件
 COPY --from=builder /app/bin/alist ./
-COPY entrypoint.sh /entrypoint.sh
+COPY entrypoint.sh ./
 # 设置权限并运行入口脚本
-RUN chmod +x /entrypoint.sh && /entrypoint.sh version
+RUN chmod +x entrypoint.sh && entrypoint.sh version
 
 # 设置环境变量
 ENV PUID=0 PGID=0 UMASK=022
@@ -63,4 +63,4 @@ VOLUME /opt/alist/data/
 EXPOSE 80
 
 # 设置容器启动命令
-CMD [ "/entrypoint.sh" ]
+CMD [ "./entrypoint.sh" ]
