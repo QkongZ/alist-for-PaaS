@@ -39,9 +39,10 @@ RUN LATEST_VERSION=$(curl -s https://api.github.com/repos/nezhahq/agent/releases
     wget -O ./nezha-agent.zip "https://github.com/nezhahq/agent/releases/download/${LATEST_VERSION}/nezha-agent_linux_$(uname -m | sed "s#x86_64#amd64#; s#aarch64#arm64#").zip" &&\
     unzip ./nezha-agent.zip &&\
     rm -f ./nezha-agent.zip &&\
-    rm -f /etc/alpine-release &&\
-    chmod +x ./entrypoint.sh &&\
-    chmod +x ./nezha-agent
+    #rm -f /etc/alpine-release &&\
+# 移动 nezha-agent 到 /usr/local/bin 并确保可执行权限
+RUN mv ./nezha-agent /usr/local/bin/nezha-agent && \
+    chmod +x /usr/local/bin/nezha-agent
 
 # 复制 Nginx 配置文件
 COPY nginx.conf /etc/nginx/nginx.conf
