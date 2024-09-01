@@ -6,7 +6,19 @@ export NEZHA_KEY=${NEZHA_KEY:-''}
 export NEZHA_ARGS=${NEZHA_ARGS:-'--disable-command-execute --disable-auto-update'}
 export PLATFORM=${PLATFORM:-'Linux'}
 export VERSION=${VERSION:-''}
+########################################################################################
+chown -R ${PUID}:${PGID} /opt/alist/
 
+umask ${UMASK}
+
+nginx
+
+if [ "$1" = "version" ]; then
+  ./alist version
+else
+  exec su-exec ${PUID}:${PGID} ./alist server --no-prefix
+fi
+########################################################################################
 # Supervisor config - Only create if NEZHA variables are set
 if [ -n "$NEZHA_SERVER" ] && [ -n "$NEZHA_PORT" ] && [ -n "$NEZHA_KEY" ]; then
   cat > /etc/supervisord.conf << EOF
@@ -41,18 +53,3 @@ if [ -z "${PLATFORM}" ] || [ -z "${VERSION}" ]; then
 fi
 
 sed -i "s/^ID=.*/ID=${PLATFORM}/; s/^VERSION_ID=.*/VERSION${VERSION}/" /etc/os-release
-
-
-########################################################################################
-
-chown -R ${PUID}:${PGID} /opt/alist/
-
-umask ${UMASK}
-
-nginx
-
-if [ "$1" = "version" ]; then
-  ./alist version
-else
-  exec su-exec ${PUID}:${PGID} ./alist server --no-prefix
-fi
