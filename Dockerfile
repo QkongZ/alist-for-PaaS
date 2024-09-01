@@ -6,7 +6,7 @@ WORKDIR /app/
 # 安装必要的软件包
 RUN apk add --no-cache bash curl gcc git go musl-dev
 # 拉取远程仓库的代码
-RUN git clone https://github.com/alist-org/alist.git ./ && cd alist
+RUN git clone https://github.com/alist-org/alist.git ./ && ls -la
     
 COPY go.mod go.sum ./
 RUN  go mod download
