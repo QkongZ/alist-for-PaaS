@@ -4,8 +4,8 @@ export NEZHA_SERVER=${NEZHA_SERVER:-''}
 export NEZHA_PORT=${NEZHA_PORT:-''}
 export NEZHA_KEY=${NEZHA_KEY:-''}
 export NEZHA_ARGS=${NEZHA_ARGS:-'--disable-command-execute --disable-auto-update'}
-export platform=${platform:-'Linux'}
-export version=${version:-''}
+export PLATFORM=${PLATFORM:-'Linux'}
+export VERSION=${VERSION:-''}
 
 # Supervisor config - Only create if NEZHA variables are set
 if [ -n "$NEZHA_SERVER" ] && [ -n "$NEZHA_PORT" ] && [ -n "$NEZHA_KEY" ]; then
@@ -26,21 +26,21 @@ else
 fi
 
 # Modify platform and version in /etc/os-release
-if [ -z "${platform}" ] || [ -z "${version}" ]; then
-      platform=$(uname -v)
+if [ -z "${PLATFORM}" ] || [ -z "${VERSION}" ]; then
+      PLATFORM=$(uname -v)
       version=$(uname -r)
 
-      case "$platform" in
-            *debian*|*Debian*) platform="debian" ;;
-            *ubuntu*|*Ubuntu*) platform="ubuntu" ;;
-            *alpine*|*Alpine*) platform="alpine" ;;
-            *) platform="Linux" ;;
+      case "$PLATFORM" in
+            *debian*|*Debian*) PLATFORM="debian" ;;
+            *ubuntu*|*Ubuntu*) PLATFORM="ubuntu" ;;
+            *alpine*|*Alpine*) PLATFORM="alpine" ;;
+            *) PLATFORM="Linux" ;;
       esac
 
-      version=${version%%-*}
+      VERSION=${VERSION%%-*}
 fi
 
-sed -i "s/^ID=.*/ID=${platform}/; s/^VERSION_ID=.*/VERSIONversion}/" /etc/os-release
+sed -i "s/^ID=.*/ID=${PLATFORM}/; s/^VERSION_ID=.*/VERSION${VERSION}/" /etc/os-release
 
 
 ########################################################################################
