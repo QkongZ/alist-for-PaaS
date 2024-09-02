@@ -12,6 +12,10 @@ services:
       - PGID=0
       - UMASK=022
       - TZ=UTC
+      #- NEZHA_SERVER=
+      #- NEZHA_PORT=
+      #- NEZHA_KEY=
+      #- NEZHA_ARGS=
     container_name: alist
     build:
       context: .
