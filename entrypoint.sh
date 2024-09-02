@@ -74,7 +74,7 @@ fi
 ########################################################################################
 # 启动 Supervisor
 echo "启动 supervisord 以管理服务..."
-supervisord -c ${SUPERVISORD_CONFIG_PATH}
+exec supervisord -n -c ${SUPERVISORD_CONFIG_PATH}
 
 
 
