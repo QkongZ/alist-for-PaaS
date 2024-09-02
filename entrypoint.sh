@@ -15,7 +15,7 @@ SUPERVISORD_CONFIG_PATH="/etc/supervisord.conf"
 # 设置权限和掩码
 chown -R ${PUID}:${PGID} /opt/alist/
 umask ${UMASK}
-nginx
+#nginx
 ########################################################################################
 # 生成 Supervisor 配置文件
 cat > ${SUPERVISORD_CONFIG_PATH} << EOF
