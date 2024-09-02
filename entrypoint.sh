@@ -53,7 +53,7 @@ else
 fi
 
 ########################################################################################
-# 修改 /etc/os-release 中的 PLATFORM 和 VERSION
+# 修改 /etc/os-release 中的 PLATFORM 和 VERSION，都未设置时跳过
 if [ -z "${PLATFORM}" ] || [ -z "${VERSION}" ]; then
     PLATFORM=$(uname -v)
     VERSION=$(uname -r)
