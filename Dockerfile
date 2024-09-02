@@ -34,7 +34,7 @@ RUN apk update && \
     apk add --no-cache bash ca-certificates su-exec tzdata nginx supervisor curl jq && \
     [ "$INSTALL_FFMPEG" = "true" ] && apk add --no-cache ffmpeg; \
     rm -rf /var/cache/apk/* && \
-    mkdir -p /run/nginx
+    mkdir -p /var/run && chown -R nginx:nginx /var/run
 
 # 安装哪吒监控端
 RUN LATEST_VERSION=$(curl -s https://api.github.com/repos/nezhahq/agent/releases/latest | jq -r .tag_name) && \
