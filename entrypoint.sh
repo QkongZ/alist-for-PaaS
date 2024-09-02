@@ -24,8 +24,9 @@ nodaemon=true
 logfile=/var/log/supervisord.log
 
 [program:nginx]
-command=nginx
+command=nginx -g 'daemon off;'  
 autorestart=true
+user=$(whoami)
 
 [program:alist]
 command=su-exec ${PUID}:${PGID} /opt/alist/alist server --no-prefix
