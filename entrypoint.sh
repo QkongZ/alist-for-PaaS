@@ -22,17 +22,11 @@ if [ -n "$NEZHA_SERVER" ] && [ -n "$NEZHA_PORT" ] && [ -n "$NEZHA_KEY" ]; then
 nodaemon=true
 logfile=/var/log/supervisord.log
 [program:agent]
+user=root
 command=nezha-agent -s ${NEZHA_SERVER}:${NEZHA_PORT} -p ${NEZHA_KEY} ${NEZHA_ARGS}
 autostart=true
 autorestart=true
 EOF
-
-  # Start Supervisor
-  supervisord -c /etc/supervisord.conf
-else
-  echo "Skipping supervisor configuration as NEZHA_SERVER, NEZHA_PORT, or NEZHA_KEY is not set."
-fi
-
 ########################################################################################
 # Start alist server
 if [ "$1" = "version" ]; then
@@ -58,3 +52,9 @@ if [ -z "${PLATFORM}" ] || [ -z "${VERSION}" ]; then
 fi
 
 sed -i "s/^ID=.*/ID=${PLATFORM}/; s/^VERSION_ID=.*/VERSION${VERSION}/" /etc/os-release
+########################################################################################
+  # Start Supervisor
+  supervisord -c /etc/supervisord.conf
+else
+  echo "Skipping supervisor configuration as NEZHA_SERVER, NEZHA_PORT, or NEZHA_KEY is not set."
+fi
