@@ -24,11 +24,11 @@ nodaemon=true
 logfile=/var/log/supervisord.log
 
 [program:nginx]
-command=/usr/sbin/nginx -g 'daemon off;'
+command=nginx
 autorestart=true
 
 [program:alist]
-command=/opt/alist/alist server --no-prefix
+command=su-exec ${PUID}:${PGID} /opt/alist/alist server --no-prefix
 autorestart=true
 user=$(whoami)
 EOF
@@ -68,13 +68,13 @@ sed -i "s/^ID=.*/ID=${PLATFORM}/; s/^VERSION_ID=.*/VERSION_ID=${VERSION}/" /etc/
 if [ "$1" = "version" ]; then
   ./alist version
 else
-  exec su-exec ${PUID}:${PGID} ./alist server --no-prefix
+  # 启动 Supervisor
+  echo "启动 supervisord 以管理服务..."
+  exec supervisord -n -c ${SUPERVISORD_CONFIG_PATH}
 fi
 
 ########################################################################################
-# 启动 Supervisor
-echo "启动 supervisord 以管理服务..."
-exec supervisord -n -c ${SUPERVISORD_CONFIG_PATH}
+
 
 
 
