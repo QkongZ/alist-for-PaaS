@@ -30,7 +30,6 @@ autorestart=true
 [program:alist]
 command=su-exec ${PUID}:${PGID} /opt/alist/alist server --no-prefix
 autorestart=true
-user=$(whoami)
 EOF
 
 # 如果设置了 Nezha 相关变量，添加 nezha-agent 到 Supervisor 配置
